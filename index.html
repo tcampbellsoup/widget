@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>title</title>
+  </head>
+  <body>
+  	<h1>find your rep</h2>
+
+  		<div><a href="">enter your address</div></a>
+  		<br>
+  		<p>or</p>
+  		<br>
+  		<div id=autoLook><a href="">have handle your address for you</div></a>
+<button onclick="getLocation()">Try It</button>
+  		<script>
+var x = document.getElementById("autoLook");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude;	
+}
+</script>
+  
+  </body>
+</html>
