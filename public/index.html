@@ -1,0 +1,132 @@
+<!--USE THIS INDEX.HTML-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>widget</title>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
+    <script>
+    
+    </script>
+  </head>
+  <body>
+  	<h1>find your rep</h1>
+
+    <button id='youDoIt' name='youDoIt' value='enter' onclick = 'makeTextFieldsAppear()'>
+        enter your address yourself.
+    </button>
+    <div>
+
+    </div>
+
+      <br>
+  		<br>
+  		<p>or</p>
+  		<br>
+
+    <button id="weDoIt" onclick="getLocation()">
+      let us look up your address for you.
+    </button>
+
+        <p id="geocodeDisplay"></p>
+    
+        <div id="Test">
+          <p id="lat"><span id="spanlat"></span></p>
+        </div>
+
+        <div id="Test2">
+          <p id="long"><span id="spanlong"></span></p>
+        </div>
+
+        <div id="Test3">
+          <p id="repName"></p>
+        </div>
+
+  		<script>
+
+ //geocode lookup:     
+//var x = document.getElementById("geocodeDisplay");
+var x = document.getElementById("lat");
+var xx = document.getElementById("spanlat");
+var y = document.getElementById("long");
+var yy = document.getElementById("spanlong");
+
+var thislat, thislong;
+var repname;
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+     
+}
+
+function nextButton(){
+  var button = document.createElement("BUTTON");
+ var text = document.createTextNode("take me to the next step.");
+ button.appendChild(text);
+ document.body.appendChild(button);
+ button.onclick=function(){
+  $.get('/location?lat=' + thislat + '&long='+ thislong, function(data){
+    console.dir(data);
+    confirm("your district representative is: " + data);
+    
+    // alert(data1);
+});
+
+  $.get('/location1?lat=' + thislat + '&long='+ thislong, function(data){
+    confirm("Email: " + data);
+    
+    // alert(data1);
+});
+
+   $.get('/location2?lat=' + thislat + '&long='+ thislong, function(data){
+    confirm("You live in district #" + data);
+    
+    // alert(data1);
+});
+  
+ }
+}
+
+function showMeMyResults(){
+  $.get('/results');
+}
+
+console.log(showMeMyResults());
+
+function showPosition(position) {
+  //original code from W3Schools:
+   // x.innerHTML = "latitude: " +  position.coords.latitude + 
+   // "<br>longitude: " + position.coords.longitude; 
+   thislat = position.coords.latitude;
+   thislong = position.coords.longitude;
+   
+
+   x.innerHTML = "latitude: " + thislat;
+   xx.innerHTML = position.coords.latitude;
+
+   y.innerHTML = "longitude: " + thislong;
+   yy.innerHTML = position.coords.longitude;
+   console.log(thislat, thislong);
+
+  nextButton();   
+}
+
+//make a textfield for the youDoIt:
+     function makeTextFieldsAppear() {
+      var x = document.createElement("INPUT");
+      x.setAttribute("type", "text");
+      x.setAttribute("value", "what is your street address?");
+      document.body.appendChild(x);
+      alert('i clicked!');
+     }
+
+
+</script>
+  
+  </body>
+</html>
